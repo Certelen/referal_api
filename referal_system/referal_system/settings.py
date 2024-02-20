@@ -21,8 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'referal',
-    'users',
     'api'
 ]
 
@@ -57,6 +55,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'referal_system.wsgi.application'
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -65,7 +65,7 @@ DATABASES = {
 }
 
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'api.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
