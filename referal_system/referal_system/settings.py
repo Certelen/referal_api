@@ -1,4 +1,8 @@
 import os
+from datetime import timedelta
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'djoser',
     'api'
 ]
 
@@ -82,6 +88,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'SEARCH_PARAM': 'name',
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.PostUserCreateSerializer',
+        'user': 'api.serializers.PostUserCreateSerializer',
+        'current_user': 'api.serializers.GetUserSerializer',
+    },
+    'HIDE_USERS': False,
+    'PERMISSIONS': {
+        'activation': ['rest_framework.permissions.AllowAny'],
+        'password_reset': ['rest_framework.permissions.AllowAny'],
+        'password_reset_confirm': ['rest_framework.permissions.AllowAny'],
+        'set_password': ['djoser.permissions.CurrentUserOrAdmin'],
+        'username_reset': ['rest_framework.permissions.AllowAny'],
+        'username_reset_confirm': ['rest_framework.permissions.AllowAny'],
+        'set_username': ['djoser.permissions.CurrentUserOrAdmin'],
+        'user_create': ['rest_framework.permissions.AllowAny'],
+        'user_delete': ['djoser.permissions.CurrentUserOrAdmin'],
+        'user': ['djoser.permissions.CurrentUserOrAdmin'],
+        'user_list': ['djoser.permissions.CurrentUserOrAdmin'],
+    }}
 
 LANGUAGE_CODE = 'ru-ru'
 

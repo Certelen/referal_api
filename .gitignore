@@ -1,7 +1,8 @@
 ### Python template
 
 # Custom
-./migrations/
+migrations/
+db.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
