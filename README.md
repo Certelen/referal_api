@@ -131,10 +131,9 @@ sudo docker compose exec backend python manage.py createsuperuser
 - WEB_HOST = <Адрес сервера>
 - WEB_PORT = <Порт сервера>
 ```
-Перейдите в папку
+Переходим в папку
 ```
 ~ cd referal_system
-```
 ```
 Перед первым запуском выполняем миграции:
 ```
@@ -144,7 +143,6 @@ python manage.py migrate
 ```
 python manage.py createsuperuser
 ```
-# Запуск
 Запуск сервиса производится командой:
 ```
 ~ uvicorn referal_system.asgi:application
