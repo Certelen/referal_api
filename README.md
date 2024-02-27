@@ -86,8 +86,6 @@ nano .env
 - WEB_HOST = <Адрес сервера>
 - WEB_PORT = <Порт сервера>
 ```
-
-# Развертывание проекта с помощью Docker:
 Разворачиваем контейнеры в фоновом режиме из папки infra:
 ```
 sudo docker compose up -d
@@ -132,7 +130,7 @@ sudo docker compose exec backend python manage.py createsuperuser
 
 - WEB_HOST = <Адрес сервера>
 - WEB_PORT = <Порт сервера>
-
+```
 Перейдите в папку
 ```
 ~ cd referal_system
