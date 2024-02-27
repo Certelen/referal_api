@@ -1,0 +1,244 @@
+openapi: 3.0.2
+info:
+  title: Документация к API проекта <Project Name>
+  version: v1
+tags:
+  - name: Users
+    description: Пользователи
+  - name: Auth
+    description: Авторизация
+  - name: Referals
+    description: Реферальные коды
+paths:
+  /user/:
+    post:
+      tags:
+        - Users
+      operationId: Создание пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Отсутствует обязательное поле в теле запроса
+          content:
+            application/json:
+              examples:
+                400:
+                  value:
+                    email:
+                      - Обязательное поле.
+                    username:
+                      - Обязательное поле.
+                    password:
+                      - Обязательное поле.
+    get:
+      tags:
+        - Users
+      operationId: Получение информации о себе
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        403:
+          description: Не указан токен пользователя в заголовке
+  /user/<id>/:
+    get:
+      tags:
+        - Users
+      operationId: Получение информации о пользователе
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserReferals'
+        403:
+          description: Не указан токен пользователя в заголовке
+  /token/jwt/create/:
+    post:
+      tags:
+        - Auth
+      operationId: Создание токена пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Token'
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+              examples:
+                Ответ:
+                  value: 
+                    Token: str
+        400:
+          description: Отсутствует обязательное поле в теле запроса
+          content:
+            application/json:
+              examples:
+                400:
+                  value:
+                    username:
+                      - Обязательное поле.
+                    password:
+                      - Обязательное поле.
+  /referals/:
+    post:
+      tags:
+        - Referals
+      operationId: Создание реферального кода
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReferal'
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referal'
+        400:
+          description: Отсутствует обязательное поле в теле запроса
+          content:
+            application/json:
+              examples:
+                400:
+                  value:
+                    validity_period:
+                      - Обязательное поле.
+        403:
+          description: Не указан токен пользователя в заголовке
+    get:
+      tags:
+        - Referals
+      operationId: Получение информации о реферальном коде
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referal'
+        403:
+          description: Не указан токен пользователя в заголовке
+    delete:
+      tags:
+        - Referals
+      operationId: Удаление реферального кода
+      responses:
+        200:
+          description: Удачное выполнение запроса
+          content:
+            application/json:
+              {}
+        403:
+          description: Не указан токен пользователя в заголовке
+  /referals/get_referal_on_mail/:
+    get:
+      tags:
+        - Referals
+      operationId: Получение реферального кода на почту
+      responses:
+        200:
+          description: Удачное выполнение запроса
+        403:
+          description: Не указан токен пользователя в заголовке
+components:
+  schemas:
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          title: Почта
+        referal_code:
+          type: string
+          title: Реферальный код
+        username:
+          type: string
+          title: Никнейм пользователя
+        password:
+          type: string
+          title: Пароль пользователя
+      required:
+        - email
+        - username
+        - password
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          title: Почта
+        username:
+          type: string
+          title: Никнейм пользователя
+    UserReferals:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id пользователя
+        email:
+          type: string
+          title: Почта
+        username:
+          type: string
+          title: Никнейм пользователя
+        referer_user:
+          title: Приглашенные пользователи
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                title: id пользователя
+    CreateReferal:
+      type: object
+      properties:
+        validity_period:
+          type: integer
+          title: Количество дней жизни кода
+      required:
+        - validity_period
+    Referal:
+      type: object
+      properties:
+        code:
+          type: string
+          title: Реферальный код
+        end_date:
+          type: date
+          title: Дата окончания жизни реферального кода
+    Token:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Ник пользователя
+        password:
+          type: string
+          title: Пароль пользователя
+      required:
+        - username
+        - password

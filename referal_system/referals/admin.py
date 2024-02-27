@@ -1,13 +1,8 @@
 from django.contrib import admin
 
-from .models import Referal, User
+from .models import Referal
 
 
 @admin.register(Referal)
 class ReferalAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
     pass
